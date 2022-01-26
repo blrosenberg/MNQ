@@ -1,2 +1,2 @@
 # MNQ
-Small browser-based tools to automate repetitive bookstore tasks
+Small, browser-based tools to automate repetitive bookstore tasks
