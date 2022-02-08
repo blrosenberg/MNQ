@@ -59,10 +59,11 @@
 				str.splice(i, 1)
 				str[i-1] += ':'
 			}
-			
-			let romanNum = {'v', 'i', 'x'} //Checking for Roman Numerals
+
+			let romanNum = new Set('v', 'i', 'x') //Checking for Roman Numerals
+			let uniqueChar = new Set(str[i])
 			let isRN = true;
-			for (i of set(str[i])) {
+			for (i of uniqueChar
 				if (!romanNum.has(i)) {
 					isRN = false
 					break
