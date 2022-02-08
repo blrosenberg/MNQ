@@ -60,18 +60,19 @@
 				str[i-1] += ':'
 			}
 
-			let romanNum = new Set('v', 'i', 'x') //Checking for Roman Numerals
-			let uniqueChar = new Set(str[i])
-			let isRN = true;
-			for (i of uniqueChar) {
-				if (!romanNum.has(i)) {
-					isRN = false
-					break
-				}
-			}
-			if (isRN) {
-				str[i] = str[i].toUpperCase()
-			}
+			//let romanNum = new Set('v', 'i', 'x') //Checking for Roman Numerals
+			//let uniqueChar = new Set(str[i])
+			
+			//let isRN = true;
+			//for (i of uniqueChar) {
+			//	if (!romanNum.has(i)) {
+			//		isRN = false
+			//		break
+			//	}
+			//}
+			//if (isRN) {
+			//	str[i] = str[i].toUpperCase()
+			//}
 		}
 		return str.join(' ').replace('- ', '-').replace('( ', '(');
 	};
