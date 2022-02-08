@@ -47,21 +47,33 @@
     <script>
         let history = [] //stores previous tracking data
 		
-		var toTitleCase = function (str) {
-			str = str.replace('.', '. ').replace('-', '- ').replace('(', '( ').replace(' : ', ': ')
-			str = str.toLowerCase().split(' ');
-			noCaps = ['to', 'the', 'and', 'a', 'an', 'or', 'of', 'but', 'in']
-			for (var i = 0; i < str.length; i++) {
-				if (i == 0 || str[i-1].includes(':') || !noCaps.includes(str[i])) {
-					str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
-				}
-				if (str[i]==':') {
-					str.splice(i, 1)
-					str[i-1] += ':'
+	var toTitleCase = function (str) {
+		str = str.replace('.', '. ').replace('-', '- ').replace('(', '( ').replace(' : ', ': ')
+		str = str.toLowerCase().split(' ');
+		noCaps = ['to', 'the', 'and', 'a', 'an', 'or', 'of', 'but', 'in']
+		for (var i = 0; i < str.length; i++) {
+			if (i == 0 || str[i-1].includes(':') || !noCaps.includes(str[i])) {
+				str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
+			}
+			if (str[i]==':') {
+				str.splice(i, 1)
+				str[i-1] += ':'
+			}
+			
+			let romanNum = {'v', 'i', 'x'} //Checking for Roman Numerals
+			let isRN = true;
+			for (i of set(str[i])) {
+				if (!romanNum.has(i)) {
+					isRN = false
+					break
 				}
 			}
-		return str.join(' ').replace('- ', '-').replace('( ', '(');
-		};
+			if (isRN) {
+				str[i] = str[i].toUpperCase()
+			}
+		}
+	return str.join(' ').replace('- ', '-').replace('( ', '(');
+	};
 		
         function copyToClipboard() {
             let x = document.getElementById("scanbox").value
