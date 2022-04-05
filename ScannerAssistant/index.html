@@ -49,7 +49,7 @@
 
         function copyToClipboard() {
             let x = document.getElementById("scanbox").value
-	    if (x[0] !== 'F') {
+	    if (x[0] !== 'F' && x[0] !== 'S') {
             	x = x.substring(8, x.length)
 	    }
             prev = document.getElementById("prev")            
