@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <title>Character Development</title>
+    <style>
+        body {
+            margin: 25px;
+            font-family: Helvetica;
+            width: 500px;
+        }
+
+        h1 { /* "Paste Corrupted Text Here: " */
+            font-size: 20px;
+            text-align: left;
+			      padding-left: 10px;
+        }
+		
+		#content {
+			background-color: rgb(240, 240, 240);
+			border: 1px solid rgb(100, 100, 100)
+		}
+		
+        #prevList, form, p {
+            text-align:left;
+            padding-left: 25px;
+            font-size: 15px;
+        }
+    </style>
+</head>
+
+<body>
+	<div id="content">
+    <h1>Paste ALL-CAPS Titles Here: </h1>
+    <form>
+        <div>
+            <input type="text" id="scanbox" name="scanbox" placeholder=" ">
+            <button onclick="copyToClipboard(); return false;">Submit</button>
+        </div>
+    </form>
+
+    <div id="prevList">
+        <p>previously entered titles: </p>
+        <p id="prev"></p>
+    </div>
+    
+    <script>
+        let history = [] //stores previous tracking data
+		
+	var toTitleCase = function (str) {
+		str = str.replace('.', '. ').replace('-', '- ').replace('(', '( ').replace(' : ', ': ')
+		str = str.toLowerCase().split(' ');
+		noCaps = ['to', 'the', 'and', 'a', 'an', 'or', 'of', 'but', 'in']
+		for (var i = 0; i < str.length; i++) {
+			if (i == 0 || str[i-1].includes(':') || !noCaps.includes(str[i])) {
+				str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
+			}
+			if (str[i]==':') {
+				str.splice(i, 1)
+				str[i-1] += ':'
+			}
+
+			//let romanNum = new Set('v', 'i', 'x') //Checking for Roman Numerals
+			//let uniqueChar = new Set(str[i])
+			
+			//let isRN = true;
+			//for (i of uniqueChar) {
+			//	if (!romanNum.has(i)) {
+			//		isRN = false
+			//		break
+			//	}
+			//}
+			//if (isRN) {
+			//	str[i] = str[i].toUpperCase()
+			//}
+		}
+		return str.join(' ').replace('- ', '-').replace('( ', '(');
+	};
+		
+        function copyToClipboard() {
+            let x = document.getElementById("scanbox").value
+			x = toTitleCase(x)
+            prev = document.getElementById("prev")            
+            history.unshift(x)
+            prev.innerHTML = history.join("<br>")
+            
+            if (window.clipboardData && window.clipboardData.setData) {
+                // Internet Explorer-specific code path to prevent textarea being shown while dialog is visible.
+                return window.clipboardData.setData("Text", x);
+
+            }
+            else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+                var textarea = document.createElement("textarea");
+                textarea.textContent = x;
+                textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in Microsoft Edge.
+                document.body.appendChild(textarea);
+                textarea.select();
+                try {
+                    return document.execCommand("copy");  // deprecated but it works!
+                }
+                catch (ex) {
+                    console.warn("Copy to clipboard failed.", ex);
+                    return false;
+                }
+                finally {
+                    document.body.removeChild(textarea);
+                }
+            }
+            if (input.value > 1) {
+                input.value = ""
+            }
+        }
+    </script>
+	<p>Any text entered into the box above will be automatically copied to the clipboard with corrected title capitalization.</p>
+	</div>
+</body>
+</html>
