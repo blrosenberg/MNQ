@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Safe-T Assistant</title>
+    <style>
+        body {
+            margin: 25px;
+            font-family: sans-serif;
+            width: 500px;
+        }
+		
+		p {
+			
+		}
+
+        h1 { /* "Scan tracking codes here:" */
+	    padding-left: 10px;
+            font-size: 20px;
+            text-align: left;
+        }
+        
+        #prevList, form {
+            text-align:left;
+            padding-left: 25px;
+            font-size: 12px;
+        }
+        #content {
+            background-color: rgb(240, 240, 240);
+	        border: 1px solid rgb(100, 100, 100);
+	        padding-bottom: 25px;
+        }
+        
+    </style>
+</head>
+
+<body>
+	<p>
+	This is a tool for quickly accessing the relevant pages when processing Amazon returns / Safe-T claims. <br><br>
+	If only one tab opens when you click Enter/Submit, make sure to enable pop-ups for this page.
+	</p>
+    <div id="content">
+
+    <h1>Enter Amazon Order Numbers Here: </h1>
+    <form>
+        <div>
+            <input type="text" id="scanbox" name="scanbox" placeholder=" ">
+            <button onclick="copyToClipboard(); return false;">Submit</button>
+        </div>
+    </form>
+
+    <div id="prevList">
+        <p>previous orders: </p>
+        <p id="prev"></p>
+    </div>
+    </div>
+    <script>
+        let history = [] //stores previous tracking data
+		
+		function NewTab(url) {
+            window.open(url, "_blank");
+        }
+
+        function copyToClipboard() {
+            let x = document.getElementById("scanbox").value
+            prev = document.getElementById("prev")            
+            history.unshift(x)
+            prev.innerHTML = history.join("<br>")
+			
+			
+			
+			
+			NewTab(`https://sellercentral.amazon.com/payments/event/view?accountType=ALL&orderId=${x}&resultsPerPage=10&pageNumber=1`)
+			NewTab(`https://sellercentral.amazon.com/safet-claims/create?orderId=${x}`)
+			NewTab(`https://sellercentral.amazon.com/returns/list?pageSize=25&returnRequestState=viewAll&useDefaultReturnRequestState=true&orderBy=CreatedDateAsc&pendingActionsFilterBy=pendingActions&pageNumber=1&scrollId=&previousPageScrollId=&isOrderBySelected=undefined&selectedDateRange=30&marketplaceIds=ATVPDKIKX0DER&keyword=${x}`)
+
+            
+            if (window.clipboardData && window.clipboardData.setData) {
+                // Internet Explorer-specific code path to prevent textarea being shown while dialog is visible.
+                return window.clipboardData.setData("Text", x);
+
+            }
+            else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+                var textarea = document.createElement("textarea");
+                textarea.textContent = x;
+                textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in Microsoft Edge.
+                document.body.appendChild(textarea);
+                textarea.select();
+                try {
+                    return document.execCommand("copy");  // deprecated but it works!
+                }
+                catch (ex) {
+                    console.warn("Copy to clipboard failed.", ex);
+                    return false;
+                }
+                finally {
+                    document.body.removeChild(textarea);
+                }
+            }
+						
+            if (input.value > 1) {
+                input.value = ""
+            }
+			
+        }
+    </script>
+</body>
+</html>
